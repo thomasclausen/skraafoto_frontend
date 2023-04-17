@@ -112,14 +112,14 @@ function generateParcelVectorLayer() {
 
 function waitForData(viewport) {
 
-  if (!viewport.terrain || !store.state.parcels || !viewport.map) {
+  if (!store.state.terrain || !store.state.parcels || !viewport.map) {
     setTimeout(() => waitForData(viewport), 600)
   } else {
     drawParcels({
       parcels: store.state.parcels,
       image: viewport.item.id,
       map: viewport.map,
-      elevationdata: viewport.terrain
+      elevationdata: store.state.terrain
     })
   }
 }

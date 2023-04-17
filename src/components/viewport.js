@@ -14,7 +14,6 @@ import { getZ, world2image, image2world } from '@dataforsyningen/saul'
 import { queryItem } from '../modules/api.js'
 import { toDanish } from '../modules/i18n.js'
 import { configuration } from '../modules/configuration.js'
-import { getTerrainData } from '../modules/api.js'
 import { closeEnough } from '../modules/sync-view'
 import { renderParcels } from '../custom-plugins/plugin-parcel.js'
 import { generatePointerLayer, updatePointer } from '../custom-plugins/plugin-pointer'
@@ -29,7 +28,6 @@ export class SkraaFotoViewport extends HTMLElement {
   item
   coord_image
   coord_world
-  terrain
   api_stac_token = configuration.API_STAC_TOKEN
   map
   layer_image
@@ -284,9 +282,6 @@ export class SkraaFotoViewport extends HTMLElement {
   }
 
   updatePlugins() {
-    getTerrainData(this.item).then(terrain => {
-      this.terrain = terrain
-    })
     if (configuration.ENABLE_PARCEL) {
       renderParcels(this)
     }

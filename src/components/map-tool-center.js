@@ -1,6 +1,7 @@
 import { getWorldXYZ } from '@dataforsyningen/saul'
 import { queryItems } from '../modules/api.js'
 import { setParams } from '../modules/url-state.js'
+import store from '../store'
 
 /**
  * Enables a user to click an image an have it centered in that location
@@ -15,7 +16,7 @@ export class CenterTool {
         viewport.displaySpinner()
         getWorldXYZ({
           image: viewport.item,
-          terrain: viewport.terrain,
+          terrain: store.state.terrain,
           xy: event.coordinate
         }, 0.03).then((world_xyz) => {
           

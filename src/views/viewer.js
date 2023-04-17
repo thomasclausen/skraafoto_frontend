@@ -1,5 +1,5 @@
 import { getParam, setParams } from '../modules/url-state.js'
-import { getCollections, queryItem, queryItems } from '../modules/api.js'
+import { getCollections, queryItem, queryItems, getTerrainData } from '../modules/api.js'
 import { SkraaFotoViewport } from '../components/viewport.js'
 import { SkraaFotoAdvancedViewport } from '../components/advanced-viewport.js'
 import { SkraaFotoMap } from '../components/map.js'
@@ -69,6 +69,20 @@ function updateMainViewport() {
 }
 
 function updateViews() {
+  const c = getParam('center')
+  const item = {
+    properties: {
+      'proj:shape': [20000, 20000] // gives a width and height of 1000
+    },
+    bbox: [c[0] - 2000, c[1] - 2000, c[0] + 2000, c[1] + 2000] // bbox based on center coordinates +/- ~2 km
+  }
+  getTerrainData(item).then(terrain => {
+    store.dispatch('updateTerrain', terrain)
+    terrain.readRasters().then(rasters => {
+      store.dispatch('updateRasters', rasters)
+    })
+  })
+
   if (getParam('orientation') === 'map') {
     updateMainMap()
   } else {
