@@ -12,7 +12,7 @@ export class CenterTool {
 
   constructor(viewport) {
     if (!configuration.ENABLE_CROSSHAIR) {
-      
+
       // Set up event listener
       viewport.map.on('singleclick', (event) => {
         if (viewport.mode === 'center') {

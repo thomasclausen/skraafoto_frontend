@@ -14,15 +14,15 @@ let configuration = {
 
   ENABLE_VIEW_SWITCH: false, // Enables view switcher to toggle between 1,2, and 5 way perspectives.
   ENABLE_WEB_STATISTICS: false, // Enables web statistics. Requires Javascript url in SITEIMPROVE_SCRIPT
-  ENABLE_PARCEL: false, // Enables displaying parcels on all viewports
-  ENABLE_POINTER: false, // Enables displaying the cursor's position as a yellow dot on the other viewports
+  ENABLE_PARCEL: true, // Enables displaying parcels on all viewports
+  ENABLE_POINTER: true, // Enables displaying the cursor's position as a yellow dot on the other viewports
   ENABLE_FOOTPRINT: false, // Enables displaying the footprint of the viewport being hovered over on the map
   ENABLE_EXPOSURE: false, // Enables a button for cycling through a selection of different exposure manipulations.
   ENABLE_SMALL_FONT: false, // Enables a small font on image-date
   ENABLE_FULLSCREEN: false, // Enables Fullscreen button
   ENABLE_COMPASSARROWS: true, // Enables compass buttons
   ENABLE_DATESQUASH: false, // Enables date-selector squash
-  ENABLE_CROSSHAIR: false, // Enables crosshair/movement tool
+  ENABLE_CROSSHAIR: true, // Enables crosshair/movement tool
   ENABLE_SKATLOGO: false, // Switches logo to Vurderingsstyrelsen instead of SDFI
 
   // The zoom difference between skraafotos and the WMTS service used for the map.
