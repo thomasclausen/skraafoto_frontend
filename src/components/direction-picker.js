@@ -19,8 +19,6 @@ export class SkraaFotoDirectionPicker extends HTMLElement {
   south_element
   east_element
   west_element
-  btn_open_element
-  btn_close_element
   styles = `
     .sf-slider,
     .sf-slider-content,
@@ -213,8 +211,6 @@ export class SkraaFotoDirectionPicker extends HTMLElement {
     this.east_element = this.shadowRoot.getElementById('viewport-east')
     this.west_element = this.shadowRoot.getElementById('viewport-west')
     this.nadir_element = this.shadowRoot.getElementById('viewport-nadir')
-    this.btn_open_element = this.shadowRoot.querySelector('.sf-slider-open')
-    this.btn_close_element = this.shadowRoot.querySelector('.sf-slider-close')
     this.slider_element = this.shadowRoot.querySelector('.sf-slider-content')
   }
 
@@ -245,14 +241,6 @@ export class SkraaFotoDirectionPicker extends HTMLElement {
 
     this.createShadowDOM()
     this.highlightInitialDirection()
-
-    this.btn_open_element.addEventListener('click', () => {
-      this.slider_element.style.transform = 'translate(0,0)'
-    })
-
-    this.btn_close_element.addEventListener('click', () => {
-      this.slider_element.style.transform = 'translate(0,100vh)'
-    })
 
     // When a mini-viewport is clicked in the selector, display it on the main viewport
     this.shadowRoot.querySelectorAll('.sf-direction-picker-btn').forEach((btn) => {

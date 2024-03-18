@@ -13,17 +13,13 @@ export class SkraaFotoHeader extends HTMLElement {
     .sf-header {
       display: flex;
       flex-flow: row nowrap;
+      gap: var(--space);
       align-items: center;
       padding: 0.75rem 1rem;
       width: 100vw;
     }
-    .sf-nav-toggle {
-      margin-left: 1rem; 
-      font-size: 2rem; 
-      font-weight: 400;
-      width: 3rem;
-      padding: 0;
-      display: inline-block;
+    .sf-logo-wrapper {
+      flex-grow: 1;
     }
     .sf-header nav {
       position: fixed;
@@ -39,12 +35,31 @@ export class SkraaFotoHeader extends HTMLElement {
     .sf-header nav[hidden] {
       transform: translateX(20rem);
     }
-    .sf-header .ds-icon-icon-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background-color: transparent;
-      border: none;
+    ds-toggle-panel.sf-nav-menu .ds-toggle-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: auto;
+      padding: var(--space-lg) var(--space-md);
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: space-between;
+    }
+    ds-toggle-panel.sf-nav-menu .ds-toggle-panel[hidden] {
+      transform: translate(100%, 0);
+    }
+    ds-toggle-panel button.ds-toggle-button {
+      margin: 0;
+    }
+    .sf-nav-menu a {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+    }
+    .sf-nav-menu a > svg {
+      height: var(--space-lg);
+      width: var(--space-lg);
+      margin-right: var(--space-sm);
     }
     .sf-help-link {
       flex: 0 0 auto;
@@ -53,15 +68,8 @@ export class SkraaFotoHeader extends HTMLElement {
       width: 12rem;
     }
     #headline {
-    display: inline;
-    margin-left: 0;
-    }
-    hr {
-      width: 30px;
-      rotate: 90deg;
-      display: flex;
-    }
-    .ds-logo {
+      display: inline;
+      margin-left: 0;
     }
     .ds-logo > ds-logo {
       height: 3rem;
@@ -69,9 +77,11 @@ export class SkraaFotoHeader extends HTMLElement {
     .ds-logo > strong {
       padding-top: 0.25rem;
     }
-    .ds-logo > span:last-child {
-      display: flex;
-      align-items: end;
+    .sf-byline-small {
+      display: none;
+    }
+    .sf-byline-large {
+      display: inline;
     }
     
     @media screen and (max-width: 79.9rem) {
@@ -85,10 +95,10 @@ export class SkraaFotoHeader extends HTMLElement {
 
     @media screen and (max-width: 40rem) {
     
-      .ds-logo > span:last-child {
-        display: none;
+      .sf-byline-small {
+        display: inline;
       }
-      skraafoto-view-switcher {
+      .sf-byline-large {
         display: none;
       }
     }
@@ -112,11 +122,11 @@ export class SkraaFotoHeader extends HTMLElement {
     markup.className = 'sf-header'
     markup.dataset.theme = 'dark'
 
-    let headerContent = `<style>${ this.styles }</style>`
+    let headerContent = `<style>${ this.styles }</style><div class="sf-logo-wrapper">`
 
     if (configuration.ENABLE_SKATLOGO) {
       headerContent += `
-        <a href="/" class="ds-logo">
+        <a href="/">
           <img href="/" id="vurderingsstyrelsen" class="skat-logo" src="img/logos/logo-vurderingsstyrelsen.svg" alt="logo af Vurderingsstyrelsen"/>
           <strong id="headline">Skråfoto</strong>
         </a>
@@ -126,17 +136,36 @@ export class SkraaFotoHeader extends HTMLElement {
         <a href="/" class="ds-logo">
           <ds-logo></ds-logo>
           <strong>Skråfoto</strong>
-          <span>Styrelsen for Dataforsyning og Infrastruktur</span>
+          <span><span class="sf-byline-small">SDFI</span><span class="sf-byline-large">Styrelsen for Dataforsyning og Infrastruktur</span></span>
         </a>
       `
     }
 
     headerContent += `
-      <skraafoto-address-search collapsible data-theme="dark"></skraafoto-address-search>
-      <skraafoto-view-switcher></skraafoto-view-switcher>
-      <a role="button" class="sf-help-link quiet" title="Information om Skråfoto" href="/info.html">
-        <svg><use href="${ svgSprites }#info"/></svg>
-      </a>
+      </div>
+      <skraafoto-address-search collapsible></skraafoto-address-search>
+      <ds-toggle-panel title="Navigation" class="sf-nav-menu slide">
+        <section>
+          <skraafoto-view-switcher></skraafoto-view-switcher>
+          <a class="sf-help-link quiet" title="Information om Skråfoto" href="/info.html">
+            <svg><use href="${ svgSprites }#info"/></svg> Mere information om Skråfoto
+          </a>
+        </section>
+        <section>
+          <p>
+            <strong>Styrelsen for Dataforsyning og Infrastruktur</strong>
+          </p>
+          <hr>
+          <p>
+            <small>
+              Sankt Kjelds Plads 11<br>
+              2100 København Ø<br>
+              7254 5500<br>
+              sdfi@sdfi.dk
+            </small>
+          </p>
+        </section>
+      </ds-toggle-panel>
     `
     markup.innerHTML = headerContent
     this.append(markup)

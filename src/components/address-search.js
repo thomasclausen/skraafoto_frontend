@@ -93,6 +93,13 @@ export class SkraaFotoAddressSearch extends HTMLElement {
       font-size: 1.2em;
       color: var(--sort);
     }
+    g-search-result-box {
+      --ds-icon-color: var(--sort);
+      padding-left: var(--space-sm);
+    }
+    .gs-title-text {
+      padding: var(--space-sm);
+    }
 
     @media screen and (max-width: 50rem) {
     
@@ -111,9 +118,10 @@ export class SkraaFotoAddressSearch extends HTMLElement {
         position: fixed;
         top: 0;
         right: 0;
+        left: 0;
         z-index: 1;
         transition: transform .5s;
-        transform: translate(100vw,0);
+        transform: translate(0,-4rem);
         padding: 1.5rem 1rem;
         display: flex;
         align-items: center;
@@ -121,20 +129,25 @@ export class SkraaFotoAddressSearch extends HTMLElement {
       }
 
       .sf-search-collapsible .open {
-        transform: translate(0,0) !important;
+        transform: translate(0,0rem) !important;
         margin: 0rem;
         height: 4rem;
       }
 
       .sf-search-collapsible input.sf-search-input + div {
-        left: auto;
+        left: 0;
         right: 0;
-        max-width: calc(100vw - 2rem);
       }
+
       button#search-button {
         display: flex;
         align-items: center;
         justify-content: center;
+      }
+
+      g-search, 
+      .gs-wrapper {
+        width: 100%;
       }
     }
     @media screen and (min-width: 50rem) {
@@ -147,7 +160,7 @@ export class SkraaFotoAddressSearch extends HTMLElement {
       ${ this.styles }
     </style>
     
-    <button id="search-button" class="sf-search-btn-open ds-icon-icon-search secondary" title="Søg efter adresse eller stednavn"></button>
+    <button id="search-button" class="sf-search-btn-open ds-icon-icon-search quiet" title="Søg efter adresse eller stednavn"></button>
     <div class="sf-input-container">
       <g-search data-placeholder="Søg adresse eller stednavn" data-token="${configuration.API_STAC_TOKEN}" data-limit="100" data-resources="husnummer,stednavn"></g-search>
       <button class="sf-slider-close quiet" title="Luk">

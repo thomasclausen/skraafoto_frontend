@@ -252,12 +252,10 @@ export class SkraaFotoViewport extends HTMLElement {
         ${
           configuration.ENABLE_GEOLOCATION ? `<skraafoto-geolocation></skraafoto-geolocation>`: ''
         }
+        <skraafoto-date-selector data-index="${ this.dataset.index }" data-viewport-id="${this.id}"></skraafoto-date-selector>    
       </div>
     </nav>
     
-    
-    <skraafoto-date-viewer data-index="${ this.dataset.index }" data-viewport-id="${this.id}"></skraafoto-date-viewer>    
-
     <div class="viewport-map">
       <p class="out-of-bounds" hidden>
         Out of bounds, klik på hovedvinduet for at hente nye billeder.

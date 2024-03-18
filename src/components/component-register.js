@@ -12,6 +12,7 @@ import { SkraafotoGeolocation } from './geolocation.js';
 import { FirstTimeVisit } from './first-time-visitor.js'
 import { configuration } from "../modules/configuration"
 import { SkraaFotoYearSelector } from "./year-selector.js"
+import { DSTogglePanel } from '@dataforsyningen/designsystem/assets/designsystem.js'
 
 export async function registerComponents() {
 
@@ -27,6 +28,7 @@ export async function registerComponents() {
   customElements.define('skraafoto-compass', SkraaFotoCompass)
   customElements.define('skraafoto-geolocation', SkraafotoGeolocation)
   customElements.define('skraafoto-year-selector', SkraaFotoYearSelector)
+  customElements.define('ds-toggle-panel', DSTogglePanel)
 
   // Load web components by configuration
   if (configuration.ENABLE_COMPASSARROWS) {
