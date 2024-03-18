@@ -25,9 +25,9 @@ let configuration = {
   ENABLE_CROSSHAIR_ICON: false,
   ENABLE_SKATLOGO: false, // Switches logo to Vurderingsstyrelsen instead of SDFI
   ENABLE_ALERT: false, // Shows a modal with custom content
-  ENABLE_YEAR_SELECTOR: true, // Display a collection selector in toolbar.
-  ENABLE_DATE_BROWSER: true, // Display a selection of other image items for the same collection (year).
-  ENABLE_CUSTOM_PARAMETER: true, // Enable custom year parameter for SKAT (REMOVE - DEPRECATED)
+  ENABLE_YEAR_SELECTOR: true, // DEPRECATED: Display a collection selector in toolbar.
+  ENABLE_DATE_BROWSER: true, // DEPRECATED: Display a selection of other image items for the same collection (year).
+  ENABLE_CUSTOM_PARAMETER: true, // DEPRECATED: Enable custom year parameter for SKAT (REMOVE - DEPRECATED)
   ENABLE_CUSTOM_YEAR: true, // Enable custom year parameter for SKAT
   ENABLE_GEOLOCATION: true, // Display Geolocation button to track current location
   ENABLE_DATAFORDELER_PING: false, // Feature that checks if Datafordeler service is still running every 60 seconds.

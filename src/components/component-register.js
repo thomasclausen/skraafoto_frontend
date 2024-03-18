@@ -11,6 +11,7 @@ import { SkraaFotoCompass } from './compass'
 import { SkraafotoGeolocation } from './geolocation.js';
 import { FirstTimeVisit } from './first-time-visitor.js'
 import { configuration } from "../modules/configuration"
+import { SkraaFotoYearSelector } from "./year-selector.js"
 
 export async function registerComponents() {
 
@@ -25,18 +26,15 @@ export async function registerComponents() {
   customElements.define('skraafoto-first-time-visit', FirstTimeVisit)
   customElements.define('skraafoto-compass', SkraaFotoCompass)
   customElements.define('skraafoto-geolocation', SkraafotoGeolocation)
+  customElements.define('skraafoto-year-selector', SkraaFotoYearSelector)
 
   // Load web components by configuration
   if (configuration.ENABLE_COMPASSARROWS) {
     const { SkraaFotoCompassArrows } = await import("./compass-arrows.js")
     customElements.define('skraafoto-compass-arrows', SkraaFotoCompassArrows)
   }
-  if (configuration.ENABLE_YEAR_SELECTOR) {
-    const { SkraaFotoYearSelector } = await import("./year-selector.js")
-    customElements.define('skraafoto-year-selector', SkraaFotoYearSelector)
-  }
-  if (configuration.ENABLE_DATE_BROWSER) {
-    const { SkraaFotoDateViewer } = await import("./date-viewer.js")
-    customElements.define('skraafoto-date-viewer', SkraaFotoDateViewer)
+  if (configuration.ENABLE_VIEW_SWITCH) {
+    const { SkraaFotoViewSwitcher } = await import("./tool-view-switcher.js")
+    customElements.define('skraafoto-view-switcher', SkraaFotoViewSwitcher)
   }
 }

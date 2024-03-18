@@ -73,6 +73,3 @@ export class SkraaFotoViewSwitcher extends HTMLElement {
   }
 
 }
-
-// This is how to initialize the custom element
-// customElements.define('skraafoto-view-switcher', SkraaFotoViewSwitcher)

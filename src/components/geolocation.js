@@ -23,13 +23,8 @@ export class SkraafotoGeolocation extends HTMLElement {
     }
     
     .ds-icon-map-icon-findonmap {
-      position: absolute;
-      z-index: 10;
-      bottom: 8rem;
-      right: 1rem;
       --icon-outer-size: 3rem;
       --icon-pos: 0rem 1rem;
-      z-index: 1;
     }
     @media screen and (max-width: 35rem) {
       .ds-icon-map-icon-findonmap {
@@ -47,7 +42,7 @@ export class SkraafotoGeolocation extends HTMLElement {
         ${this.styles}
       </style>
       ${this.getAttribute('minimal') === null ? `
-      <button title="Vis min lokation" id="geolocation-button" class="ds-icon-map-icon-findonmap"></button>
+      <button title="Vis min lokation" id="geolocation-button" class="ds-icon-map-icon-findonmap quiet"></button>
       ` : ''
       }
   `

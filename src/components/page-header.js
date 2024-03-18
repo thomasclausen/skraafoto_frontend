@@ -1,6 +1,5 @@
-import { SkraaFotoViewSwitcher } from './tool-view-switcher.js'
 import { SkraaFotoAddressSearch } from './address-search.js'
-import {configuration} from "../modules/configuration"
+import { configuration } from "../modules/configuration"
 import svgSprites from '@dataforsyningen/designsystem/assets/designsystem-icons.svg'
 
 customElements.define('skraafoto-address-search', SkraaFotoAddressSearch)
@@ -74,8 +73,6 @@ export class SkraaFotoHeader extends HTMLElement {
       display: flex;
       align-items: end;
     }
-
-    
     
     @media screen and (max-width: 79.9rem) {
       .sf-header {
@@ -145,17 +142,3 @@ export class SkraaFotoHeader extends HTMLElement {
     this.append(markup)
   }
 }
-
-async function setupConfigurables(conf) {
-  if (conf.ENABLE_VIEW_SWITCH) {
-    customElements.define('skraafoto-view-switcher', SkraaFotoViewSwitcher);
-  }
-}
-
-// Initialize
-
-setupConfigurables(configuration)
-
-
-// This is how to initialize the custom element
-// customElements.define('skraafoto-header', SkraaFotoHeader)

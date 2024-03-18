@@ -161,14 +161,6 @@ export class SkraaFotoViewport extends HTMLElement {
     .ol-viewport canvas {
       cursor: url('./img/icons/icon_crosshair.svg') 15 15, crosshair;
     }
-    .image-date {
-      display: none;
-    }
-    .sf-fullscreen-btn {
-      position: absolute;
-      top: 6rem;
-      right: 2rem;
-    }
     .sf-fullscreen-btn svg {
       display: none;
       margin: 0 !important;
@@ -178,31 +170,17 @@ export class SkraaFotoViewport extends HTMLElement {
       display: flex;
     }
     .ol-zoom {
-      bottom: 2rem;
-      right: 1rem;
-      position: absolute;
+      display: flex;
+      flex-flow: row nowrap;
     }
     .ol-zoom-in,
     .ol-zoom-out {
-      margin: 0.25rem 0 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 0.15rem 0.3rem hsl(0, 0%, 50%, 0.5);
     }
     .sf-viewport-tools button.active {
       background-color: var(--highlight) !important;
-    }
-
-    /* Download tool */
-    .sf-download-tool {
-      border-radius: 0 2.5rem 2.5rem 0;
-      width: 3.5rem !important;
-    }
-    
-    /* Info tool, exposure tool */
-    .sf-info-btn, .exposure-btn {
-      border-radius: 0;
     }
 
     /* Measure width tool */
@@ -233,28 +211,22 @@ export class SkraaFotoViewport extends HTMLElement {
         display: none;
         display: none;
       }
-
-      skraafoto-compass {
-        top: 5.5rem;
-        right: 1.5rem;
-      }
-      skraafoto-compass-arrows {
-        top: auto;
-        bottom: 2rem;
-      }
-      .image-date {
-        bottom: 0.5rem;
-        left: 0.5rem;
-      }
     }
 
     @media screen and (max-width: 50rem) {
+
+      .sf-viewport-tools {
+        position: fixed;
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
     
       .image-date {
-        display: block;
         bottom: auto;
-        top: 3.5rem;
-        left: 2rem;
+        top: 1rem;
+        left: 1.5rem;
       }
 
     }
@@ -267,12 +239,7 @@ export class SkraaFotoViewport extends HTMLElement {
     
     <nav class="ds-nav-tools sf-viewport-tools" data-theme="light">
       <div class="ds-button-group">
-        ${ 
-          configuration.ENABLE_YEAR_SELECTOR ?
-          `<skraafoto-year-selector data-index="${ this.dataset.index }" data-viewport-id="${this.id}"></skraafoto-year-selector>`
-          : `<skraafoto-date-selector data-index="${ this.dataset.index }" data-viewport-id="${this.id}"></skraafoto-date-selector>`
-        }
-        <hr>
+        <skraafoto-year-selector data-index="${ this.dataset.index }" data-viewport-id="${this.id}"></skraafoto-year-selector><hr>
         ${ configuration.ENABLE_CROSSHAIR ? '<skraafoto-crosshair-tool></skraafoto-crosshair-tool>' : '' }
         <button id="length-btn" class="btn-width-measure secondary" title="Mål afstand">
           <svg><use href="${ svgSprites }#map-ruler"/></svg>
@@ -282,13 +249,14 @@ export class SkraaFotoViewport extends HTMLElement {
         </button>
         <skraafoto-info-box id="info-btn"></skraafoto-info-box>
         <skraafoto-download-tool></skraafoto-download-tool>
+        ${
+          configuration.ENABLE_GEOLOCATION ? `<skraafoto-geolocation></skraafoto-geolocation>`: ''
+        }
       </div>
     </nav>
     
-    ${
-      configuration.ENABLE_DATE_BROWSER ?
-      `<skraafoto-date-viewer data-index="${ this.dataset.index }" data-viewport-id="${this.id}"></skraafoto-date-viewer>` : ''
-    }
+    
+    <skraafoto-date-viewer data-index="${ this.dataset.index }" data-viewport-id="${this.id}"></skraafoto-date-viewer>    
 
     <div class="viewport-map">
       <p class="out-of-bounds" hidden>
@@ -299,11 +267,6 @@ export class SkraaFotoViewport extends HTMLElement {
       configuration.ENABLE_COMPASSARROWS ?
       `<skraafoto-compass-arrows direction="north"></skraafoto-compass-arrows>`:
       `<skraafoto-compass direction="north"></skraafoto-compass>`
-    }
-    ${
-      configuration.ENABLE_GEOLOCATION ?
-     `<skraafoto-geolocation></skraafoto-geolocation>`:
-     '' // or you can remove the colon and empty string
     }
     <p id="image-date" class="image-date"></p>
   `
@@ -344,7 +307,14 @@ export class SkraaFotoViewport extends HTMLElement {
     // Initialize a map
     this.map = new OlMap({
       target: this.shadowRoot.querySelector('.viewport-map'),
-      controls: defaultControls({rotate: false, attribution: false, zoom: true}),
+      controls: defaultControls({
+        rotate: false, 
+        attribution: false, 
+        zoom: true, 
+        zoomOptions: {
+          target: this.shadowRoot.querySelector('.sf-viewport-tools .ds-button-group')
+        }
+      }),
       interactions: new Collection()
     })
     updateMapImage(this.map, this.item)
@@ -362,17 +332,24 @@ export class SkraaFotoViewport extends HTMLElement {
       this.map.addInteraction(interaction)
     })
 
-    // Add controls
-    this.shadowRoot.querySelector('.ol-zoom-out').innerHTML = `<svg><use href="${ svgSprites }#minus" /></svg>`
-    this.shadowRoot.querySelector('.ol-zoom-in').innerHTML = `<svg><use href="${ svgSprites }#plus" /></svg>`
+    // Add and customize controls
+    const zoomOutElement = this.shadowRoot.querySelector('.ol-zoom-out')
+    const zoomInElement = this.shadowRoot.querySelector('.ol-zoom-in')
+    zoomOutElement.classList.add('quiet')
+    zoomOutElement.innerHTML = `<svg><use href="${ svgSprites }#minus" /></svg>`
+    zoomInElement.classList.add('quiet')
+    zoomInElement.innerHTML = `<svg><use href="${ svgSprites }#plus" /></svg>`
     if (configuration.ENABLE_FULLSCREEN) {
       this.map.addControl(new FullScreen({
         className: 'sf-fullscreen-btn',
         label: '',
-        tipLabel: 'Skift fuldskærmsvisning'
+        tipLabel: 'Skift fuldskærmsvisning',
+        target: this.shadowRoot.querySelector('.sf-viewport-tools .ds-button-group')
       }))
-      // Add our custom fullscreen icon to fullscreen button
-      this.shadowRoot.querySelector('.sf-fullscreen-btn button').innerHTML = `
+      // Add custom styles and fullscreen icon to fullscreen button
+      const btnElement = this.shadowRoot.querySelector('.sf-fullscreen-btn button')
+      btnElement.classList.add('quiet')
+      btnElement.innerHTML = `
         <svg class="fullscreen-false"><use href="${ svgSprites }#fullscreen" /></svg>
         <svg class="fullscreen-true"><use href="${ svgSprites }#close" /></svg>
       `
