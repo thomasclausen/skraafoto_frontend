@@ -252,7 +252,14 @@ export class SkraaFotoViewport extends HTMLElement {
         ${
           configuration.ENABLE_GEOLOCATION ? `<skraafoto-geolocation></skraafoto-geolocation>`: ''
         }
-        <skraafoto-date-selector data-index="${ this.dataset.index }" data-viewport-id="${this.id}"></skraafoto-date-selector>    
+        <skraafoto-date-selector data-index="${ this.dataset.index }" data-viewport-id="${this.id}"></skraafoto-date-selector>
+        <button for="extratools" class="secondary" title="Flere værktøjer">
+          <svg><use href="${ svgSprites }#hentdata-choose"/></svg>
+        </button>
+        <ds-toggle-panel class="slide" id="extratools">
+          <h2>Her er det hemmelige indhold</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </ds-toggle-panel>
       </div>
     </nav>
     

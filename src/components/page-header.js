@@ -9,7 +9,7 @@ customElements.define('skraafoto-address-search', SkraaFotoAddressSearch)
  */
 export class SkraaFotoHeader extends HTMLElement {
 
-  styles = `
+  #styles = `
     .sf-header {
       display: flex;
       flex-flow: row nowrap;
@@ -18,7 +18,12 @@ export class SkraaFotoHeader extends HTMLElement {
       padding: 0.75rem 1rem;
       width: 100vw;
     }
-    .sf-logo-wrapper {
+    ds-logo-title {
+      height: 3rem;
+      width: 10rem;
+      margin-left: 0.5rem;
+    }
+    .sf-header-fill {
       flex-grow: 1;
     }
     .sf-header nav {
@@ -61,22 +66,13 @@ export class SkraaFotoHeader extends HTMLElement {
       width: var(--space-lg);
       margin-right: var(--space-sm);
     }
-    .sf-help-link {
-      flex: 0 0 auto;
-    }
     .skat-logo {
       width: 12rem;
     }
     #headline {
       display: inline;
       margin-left: 0;
-    }
-    .ds-logo > ds-logo {
-      height: 3rem;
-    }
-    .ds-logo > strong {
-      padding-top: 0.25rem;
-    }
+    }    
     .sf-byline-small {
       display: none;
     }
@@ -93,13 +89,9 @@ export class SkraaFotoHeader extends HTMLElement {
       }
     }
 
-    @media screen and (max-width: 40rem) {
-    
-      .sf-byline-small {
-        display: inline;
-      }
-      .sf-byline-large {
-        display: none;
+    @media screen and (min-width: 33rem) {
+      ds-logo-title {
+        width: 25rem;
       }
     }
   `
@@ -109,20 +101,24 @@ export class SkraaFotoHeader extends HTMLElement {
   }
 
   connectedCallback() {
-    this.createDOM()
+    this.#createDOM()
     this.querySelector('.sf-help-link').addEventListener('click', (event) => {
       event.preventDefault()
       location = `/info.html${ location.search }`
     })
   }
 
-  createDOM() {
+  #createDOM() {
+    // Decide what byline to use
+    const byline = document.body.clientWidth < 540 ? 'SDFI' : false
+    console.log(byline)
+
     // Create elements
     const markup = document.createElement('header')
     markup.className = 'sf-header'
     markup.dataset.theme = 'dark'
 
-    let headerContent = `<style>${ this.styles }</style><div class="sf-logo-wrapper">`
+    let headerContent = `<style>${ this.#styles }</style>`
 
     if (configuration.ENABLE_SKATLOGO) {
       headerContent += `
@@ -133,16 +129,14 @@ export class SkraaFotoHeader extends HTMLElement {
       `
     } else {
       headerContent += `
-        <a href="/" class="ds-logo">
-          <ds-logo></ds-logo>
-          <strong>Skråfoto</strong>
-          <span><span class="sf-byline-small">SDFI</span><span class="sf-byline-large">Styrelsen for Dataforsyning og Infrastruktur</span></span>
+        <a href="/">
+          <ds-logo-title title="Skråfoto"${ byline ? ` byline="${ byline }"` : ''}>
         </a>
       `
     }
 
     headerContent += `
-      </div>
+      <div class="sf-header-fill"><!-- Empty element to fill out space --></div>
       <skraafoto-address-search collapsible></skraafoto-address-search>
       <ds-toggle-panel title="Navigation" class="sf-nav-menu slide">
         <section>
