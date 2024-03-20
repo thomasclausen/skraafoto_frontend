@@ -1,6 +1,6 @@
 /* Import and define common custom elements */
 
-import { Spinner, DSLogoTitle } from '@dataforsyningen/designsystem'
+import { Spinner, DSLogoTitle, DSTogglePanel } from '@dataforsyningen/designsystem'
 import { AlertSplash } from './alert-splash.js'
 import { SkraaFotoViewport } from './viewport.js'
 import { SkraaFotoAdvancedMap } from './advanced-map.js'
@@ -12,7 +12,6 @@ import { SkraafotoGeolocation } from './geolocation.js';
 import { FirstTimeVisit } from './first-time-visitor.js'
 import { configuration } from "../modules/configuration"
 import { SkraaFotoYearSelector } from "./year-selector.js"
-import { DSTogglePanel } from '@dataforsyningen/designsystem/assets/designsystem.js'
 
 export async function registerComponents() {
 

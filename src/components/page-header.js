@@ -111,7 +111,6 @@ export class SkraaFotoHeader extends HTMLElement {
   #createDOM() {
     // Decide what byline to use
     const byline = document.body.clientWidth < 540 ? 'SDFI' : false
-    console.log(byline)
 
     // Create elements
     const markup = document.createElement('header')

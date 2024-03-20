@@ -13,33 +13,43 @@
         display: flex;
         flex-flow: column nowrap;
       }
+      .ds-container {
+        width: 44rem;
+      }
       header {
         padding-top: var(--space);
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+      }
+      skraafoto-address-search {
+        display: none;
       }
       main {
         flex-grow: 1;
-        padding-top: var(--space-xl);
+        padding-top: calc(var(--space)*8);
         padding-bottom: var(--space-xl);
+      }
+      .sf-close-page {
+        flex: 0 0 auto;
+        margin-top: var(--space-xs);
       }
     </style>
   </head>
   <body>
 
     <header class="ds-container">
-      <a href="/" class="ds-logo sf-link-back">
-        <ds-logo></ds-logo>
-        <strong>Skråfoto</strong>
-        <span><span>SDFI</span><span>Styrelsen for Dataforsyning og Infrastruktur</span></span>
+      <a href="/" style="flex: 0 1 100%;">
+        <ds-logo-title title="Skråfoto" style="height: 3rem;"></ds-logo-title>
       </a>
-    </header>
-
-    <main class="ds-container">
-
-      <a href="/" class="sf-link-back" role="button" title="Luk og gå tilbage til Skråfoto" style="float: right;">
+      <a href="/" class="sf-link-back sf-close-page" role="button" title="Luk og gå tilbage til Skråfoto">
         <svg width="24" height="24" viewBox="0 0 24 24" class="ds-svg-icon" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M18 6L6.00011 18M6 6L17.9999 18" stroke="var(--ds-icon-color, black)" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>        
       </a>
+    </header>
+
+    <main class="ds-container">
 
       <h1 style="margin-top: 0;">Information om Skråfoto</h1>
       
@@ -92,11 +102,7 @@
 
     <footer class="ds-footer">
       <div class="ds-container">
-        <p class="ds-logo">
-          <ds-logo></ds-logo>
-          <strong>SDFI</strong>
-          <span>Styrelsen for Dataforsyning og Infrastruktur</span>
-        </p>
+        <ds-logo-title title="SDFI" style="width: 100%; height: 4rem;"></ds-logo-title>
         <hr>
         <p>
           <small>
