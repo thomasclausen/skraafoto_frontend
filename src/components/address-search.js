@@ -17,6 +17,7 @@ export class SkraaFotoAddressSearch extends HTMLElement {
   coorTranslator = createTranslator()
   search_element
   input_container
+  gsearch_element
   input_element
   btn_open
   is_collapsible = false
@@ -197,11 +198,11 @@ export class SkraaFotoAddressSearch extends HTMLElement {
         this.input_element.focus()
       })
 
-      this.input_element.addEventListener('gsearch:select', () => {
+      this.gsearch_element.addEventListener('gsearch:select', () => {
         this.input_container.classList.remove('open')
       })
 
-      this.input_element.addEventListener('blur', () => {
+      this.gsearch_element.addEventListener('blur', () => {
         this.input_container.classList.remove('open')
       })
       const searchButton = this.querySelector('#search-button')
@@ -279,7 +280,8 @@ export class SkraaFotoAddressSearch extends HTMLElement {
     this.search_element = container
     this.btn_open = this.querySelector('.sf-search-btn-open')
     this.input_container = this.querySelector('.sf-input-container')
-    this.input_element = this.querySelector('g-search')
+    this.gsearch_element = this.querySelector('g-search')
+    this.input_element = this.querySelector('g-search input')
     this.btn_close = this.querySelector('.sf-slider-close')
 
     // Add "x" button after g-search element

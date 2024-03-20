@@ -102,10 +102,14 @@ export class SkraaFotoHeader extends HTMLElement {
 
   connectedCallback() {
     this.#createDOM()
-    this.querySelector('.sf-help-link').addEventListener('click', (event) => {
-      event.preventDefault()
-      location = `/info.html${ location.search }`
-    })
+    // We use timeout to set event listender
+    // because parent <ds-toggle-panel> might not be completely rendered yet.
+    setTimeout(() => {
+      this.querySelector('a.sf-help-link').addEventListener('click', (event) => {
+        event.preventDefault()
+        location.pathname = 'info.html'
+      })  
+    }, 500)
   }
 
   #createDOM() {
@@ -140,7 +144,7 @@ export class SkraaFotoHeader extends HTMLElement {
       <ds-toggle-panel title="Navigation" class="sf-nav-menu slide">
         <section>
           <skraafoto-view-switcher></skraafoto-view-switcher>
-          <a class="sf-help-link quiet" title="Information om Skråfoto" href="/info.html">
+          <a class="sf-help-link quiet" title="Information om Skråfoto" href="info.html">
             <svg><use href="${ svgSprites }#info"/></svg> Mere information om Skråfoto
           </a>
         </section>
