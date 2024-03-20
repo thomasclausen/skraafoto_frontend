@@ -102,7 +102,7 @@ export class SkraaFotoHeader extends HTMLElement {
 
   connectedCallback() {
     this.#createDOM()
-    // We use timeout to set event listender
+    // We use timeout to set event listener
     // because parent <ds-toggle-panel> might not be completely rendered yet.
     setTimeout(() => {
       this.querySelector('a.sf-help-link').addEventListener('click', (event) => {
