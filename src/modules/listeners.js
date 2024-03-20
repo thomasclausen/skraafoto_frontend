@@ -35,19 +35,22 @@ function keyDownHandler(event) {
   const isInputField = event.target.tagName === 'INPUT'
 
   if (isShiftKeyPressed && !isInputField) {
-    event.preventDefault()
 
     switch (event.key) {
       case 'ArrowDown':
+        event.preventDefault()
         shiftItemTime(0, -1)
         break
       case 'ArrowUp':
+        event.preventDefault()
         shiftItemTime(0, 1)
         break
       case 'ArrowLeft':
+        event.preventDefault()
         shiftItemOrientation(-1)
         break
       case 'ArrowRight':
+        event.preventDefault()
         shiftItemOrientation(1)
         break
       default:

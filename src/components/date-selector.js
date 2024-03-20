@@ -11,24 +11,7 @@ import svgSprites from '@dataforsyningen/designsystem/assets/designsystem-icons.
 export class SkraaFotoDateSelector extends HTMLElement {
 
   #selectElement
-  #buttonDown
-  #buttonUp
   #styles = `
-    skraafoto-date-viewer {
-      z-index: 1;
-      position: absolute;
-      bottom: 1rem;
-      pointer-events: none;
-      height: 5rem;
-      width: 100%;
-      display: flex;
-      justify-content: space-around;
-    }
-    .ds-button-group button, .ds-button-group  {
-      padding: 0;
-      pointer-events: all;
-      align-items: center;
-    }
     select {
       background-color: var(--hvid);
       border: none;
@@ -90,27 +73,7 @@ export class SkraaFotoDateSelector extends HTMLElement {
     this.innerHTML = this.#renderTemplate()
 
     this.#selectElement = this.querySelector('select')
-    this.#buttonDown = this.querySelector('.button-down')
-    this.#buttonUp = this.querySelector('.button-up')
     let isOptionClicked = false
-
-    // Add event listener to the button-down
-    this.#buttonDown.addEventListener('click', () => {
-      const selectedIndex = this.#selectElement.selectedIndex
-      const lastIndex = this.#selectElement.options.length - 1
-      const nextIndex = selectedIndex === lastIndex ? 0 : selectedIndex + 1
-      this.#selectElement.selectedIndex = nextIndex
-      this.#selectElement.dispatchEvent(new Event('change')) // Trigger change event manually
-    })
-
-    // Add event listener to the button-up
-    this.#buttonUp.addEventListener('click', () => {
-      const selectedIndex = this.#selectElement.selectedIndex
-      const lastIndex = this.#selectElement.options.length - 1
-      const prevIndex = selectedIndex === 0 ? lastIndex : selectedIndex - 1
-      this.#selectElement.selectedIndex = prevIndex
-      this.#selectElement.dispatchEvent(new Event('change')) // Trigger change event manually
-    })
 
     // When an option is clicked, set the flag to prevent focus removal
     this.#selectElement.addEventListener('mousedown', () => {
@@ -128,9 +91,6 @@ export class SkraaFotoDateSelector extends HTMLElement {
     // Add global listener for state changes
     window.addEventListener('updateItem', this.#update.bind(this))
 
-    // Add event listener to the document for arrow key navigation
-    window.addEventListener('imageshift', this.shiftItemHandler.bind(this))
-
     // When an option is selected, update the store with the new item
     this.#selectElement.addEventListener('change', (event) => {
       store.dispatch('updateItemId', {
@@ -145,7 +105,6 @@ export class SkraaFotoDateSelector extends HTMLElement {
 
   disconnectedCallback() {
     window.removeEventListener('updateItem', this.#update)
-    window.removeEventListener('imageshift', this.shiftItemHandler)
   }
 
   #update(event) {
@@ -166,19 +125,8 @@ export class SkraaFotoDateSelector extends HTMLElement {
       <style>
         ${ this.#styles }
       </style>
-      <nav class="ds-nav-tools">
-        <div class="ds-button-group" data-theme="light">
-          <button class="button-down secondary" title="Skift billede">
-            <svg><use href="${ svgSprites }#arrow-single-down"/></svg>
-          </button>
-          <hr>
-          <select class="sf-date-viewer" id="date"></select>
-          <hr>
-          <button class="button-up secondary" title="Skift billede">
-            <svg><use href="${ svgSprites }#arrow-single-up"/></svg>
-          </button>
-        </div>
-      </nav>
+    
+      <select class="sf-date-viewer" id="date"></select>
     `
   }
 
@@ -194,14 +142,6 @@ export class SkraaFotoDateSelector extends HTMLElement {
     `
     })
     return templateString
-  }
-
-  shiftItemHandler(event) {
-    if (event.detail === -1) {
-      this.#buttonDown.click()
-    } else if (event.detail === 1) {
-      this.#buttonUp.click()
-    }
   }
 
 }

@@ -94,8 +94,8 @@ export class SkraaFotoViewport extends HTMLElement {
     .sf-viewport-tools {
       position: absolute;
       z-index: 2;
-      top: .5rem;
-      left: .5rem;
+      top: var(--space-md);
+      left: var(--space);
       border-radius: 2rem
     }
     .sf-viewport-tools button {
@@ -200,15 +200,17 @@ export class SkraaFotoViewport extends HTMLElement {
       padding:10rem;
     }
 
+    button-shift-orientation {
+      display: none;
+    }
+
     @media screen and (max-width: 35rem) {
       .sf-fullscreen-btn {
         top: auto;
         bottom: 2rem;
         left: 2rem;
       }
-      
       .ol-zoom {
-        display: none;
         display: none;
       }
     }
@@ -228,7 +230,20 @@ export class SkraaFotoViewport extends HTMLElement {
         top: 1rem;
         left: 1.5rem;
       }
+    }
 
+    @media screen and (max-width: 79.9rem) {
+      button-shift-orientation {
+        display: block;
+        position: absolute;
+        bottom: 4rem;
+      }
+      button-shift-orientation[direction="1"] {
+        left: var(--space);
+      }
+      button-shift-orientation[direction="-1"] {
+        right: var(--space);
+      }
     }
   `
   template = /*html*/`
@@ -268,6 +283,10 @@ export class SkraaFotoViewport extends HTMLElement {
         Out of bounds, klik på hovedvinduet for at hente nye billeder.
       </p>
     </div>
+
+    <button-shift-orientation direction="1"></button-shift-orientation>
+    <button-shift-orientation direction="-1"></button-shift-orientation>
+
     ${
       configuration.ENABLE_COMPASSARROWS ?
       `<skraafoto-compass-arrows direction="north"></skraafoto-compass-arrows>`:

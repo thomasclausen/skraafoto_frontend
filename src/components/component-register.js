@@ -12,6 +12,7 @@ import { SkraafotoGeolocation } from './geolocation.js';
 import { FirstTimeVisit } from './first-time-visitor.js'
 import { configuration } from "../modules/configuration"
 import { SkraaFotoYearSelector } from "./year-selector.js"
+import { ShiftImageOrientationControl } from "./image-browse-buttons.js"
 
 export async function registerComponents() {
 
@@ -28,6 +29,7 @@ export async function registerComponents() {
   customElements.define('skraafoto-geolocation', SkraafotoGeolocation)
   customElements.define('skraafoto-year-selector', SkraaFotoYearSelector)
   customElements.define('ds-toggle-panel', DSTogglePanel)
+  customElements.define('button-shift-orientation', ShiftImageOrientationControl)
 
   // Load web components by configuration
   if (configuration.ENABLE_COMPASSARROWS) {
