@@ -79,6 +79,12 @@ export class SkraaFotoHeader extends HTMLElement {
     .sf-byline-large {
       display: inline;
     }
+
+    @media screen and (max-width: 50rem) {
+      skraafoto-view-switcher {
+        display: none;
+      }
+    }
     
     @media screen and (max-width: 79.9rem) {
       .sf-header {

@@ -78,12 +78,12 @@ export class SkraaFotoViewport extends HTMLElement {
   tool_measure_height
 
   styles = /*css*/`
-    button {
-    border: none;
-    }
     :host {
       position: relative;
       display: block;
+    }
+    button {
+      border: none;
     }
     .viewport-wrapper {
       position: absolute;
@@ -104,6 +104,10 @@ export class SkraaFotoViewport extends HTMLElement {
     .sf-viewport-tools select.sf-date-selector {
       border-radius: var(--space-lg) 0 0 var(--space-lg);
       height: 100%;
+    }
+    .sf-ol-controls {
+      display: flex;
+      flex-flow: row nowrap;
     }
     .viewport-map {
       width: 100%; 
@@ -200,6 +204,8 @@ export class SkraaFotoViewport extends HTMLElement {
       padding:10rem;
     }
 
+    button.sf-tools-toggle-button,
+    button.sf-tools-close-button,
     button-shift-orientation {
       display: none;
     }
@@ -223,6 +229,7 @@ export class SkraaFotoViewport extends HTMLElement {
         left: 0;
         right: 0;
         bottom: 0;
+        border-radius: 0;
       }
     
       .image-date {
@@ -230,13 +237,68 @@ export class SkraaFotoViewport extends HTMLElement {
         top: 1rem;
         left: 1.5rem;
       }
+
+      nav.sf-viewport-tools .ds-button-group {
+        transition: height 0.3s;
+        border: none;
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      nav.sf-viewport-tools.collapsed .ds-button-group button,
+      nav.sf-viewport-tools.collapsed .ds-button-group select {
+        border-radius: 0;
+      }
+
+      .sf-viewport-tools .ds-button-group > hr,
+      .sf-viewport-tools.collapsed skraafoto-crosshair-tool,
+      .sf-viewport-tools.collapsed skraafoto-date-selector,
+      .sf-viewport-tools.collapsed skraafoto-download-tool,
+      .sf-viewport-tools.collapsed .sf-ol-controls,
+      .sf-viewport-tools.expanded button.sf-tools-toggle-button,
+      .sf-viewport-tools.collapsed button.sf-tools-close-button {
+        display: none;
+      }
+
+      .sf-viewport-tools.expanded button.sf-tools-close-button,
+      button.sf-tools-toggle-button {
+        display: block;
+      }
+
+      .sf-viewport-tools.expanded .ds-button-group {
+        height: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: var(--space);
+        padding: var(--space);
+      }
+
+      .sf-viewport-tools.expanded button.sf-tools-close-button {
+        position: absolute;
+        top: -2.25rem;
+        right: 1rem;
+        border-radius: var(--space-md) var(--space-md) 0 0;
+        padding: 0;
+        background-color: var(--bg0);
+      }
+
+      .sf-viewport-tools.expanded button.sf-tools-close-button:hover,
+      .sf-viewport-tools.expanded button.sf-tools-close-button:active {
+        background-color: var(--bg2);
+      }
+
+      .sf-viewport-tools.expanded button.sf-tools-close-button:hover svg,
+      .sf-viewport-tools.expanded button.sf-tools-close-button:active svg {
+        --ds-icon-color: var(--color);
+      }
+      
     }
 
     @media screen and (max-width: 79.9rem) {
       button-shift-orientation {
         display: block;
         position: absolute;
-        bottom: 4rem;
+        bottom: 3rem;
       }
       button-shift-orientation[direction="1"] {
         left: var(--space);
@@ -252,7 +314,7 @@ export class SkraaFotoViewport extends HTMLElement {
       ${ this.styles }
     </style>
     
-    <nav class="ds-nav-tools sf-viewport-tools" data-theme="light">
+    <nav class="ds-nav-tools sf-viewport-tools collapsed" data-theme="light">
       <div class="ds-button-group">
         <skraafoto-year-selector data-index="${ this.dataset.index }" data-viewport-id="${this.id}"></skraafoto-year-selector><hr>
         ${ configuration.ENABLE_CROSSHAIR ? '<skraafoto-crosshair-tool></skraafoto-crosshair-tool>' : '' }
@@ -267,14 +329,16 @@ export class SkraaFotoViewport extends HTMLElement {
         ${
           configuration.ENABLE_GEOLOCATION ? `<skraafoto-geolocation></skraafoto-geolocation>`: ''
         }
+        <hr>
+        <div class="sf-ol-controls"></div>
+        <hr>
         <skraafoto-date-selector data-index="${ this.dataset.index }" data-viewport-id="${this.id}"></skraafoto-date-selector>
-        <button for="extratools" class="secondary" title="Flere værktøjer">
+        <button class="quiet sf-tools-toggle-button" title="Flere værktøjer">
           <svg><use href="${ svgSprites }#hentdata-choose"/></svg>
         </button>
-        <ds-toggle-panel class="slide" id="extratools">
-          <h2>Her er det hemmelige indhold</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </ds-toggle-panel>
+        <button class="quiet sf-tools-close-button" title="Luk værktøjer">
+          <svg><use href="${ svgSprites }#close"/></svg>
+        </button>
       </div>
     </nav>
     
@@ -336,7 +400,7 @@ export class SkraaFotoViewport extends HTMLElement {
         attribution: false, 
         zoom: true, 
         zoomOptions: {
-          target: this.shadowRoot.querySelector('.sf-viewport-tools .ds-button-group')
+          target: this.shadowRoot.querySelector('.sf-ol-controls')
         }
       }),
       interactions: new Collection()
@@ -368,7 +432,7 @@ export class SkraaFotoViewport extends HTMLElement {
         className: 'sf-fullscreen-btn',
         label: '',
         tipLabel: 'Skift fuldskærmsvisning',
-        target: this.shadowRoot.querySelector('.sf-viewport-tools .ds-button-group')
+        target: this.shadowRoot.querySelector('.sf-ol-controls')
       }))
       // Add custom styles and fullscreen icon to fullscreen button
       const btnElement = this.shadowRoot.querySelector('.sf-fullscreen-btn button')
@@ -541,6 +605,12 @@ export class SkraaFotoViewport extends HTMLElement {
     return zoom
   }
 
+  toggleToolbarHandler(event) {
+    const toolbarElement = this.shadowRoot.querySelector('.sf-viewport-tools')
+    toolbarElement.classList.toggle('collapsed')
+    toolbarElement.classList.toggle('expanded')
+  }
+
 
   // Lifecycle callbacks
 
@@ -557,6 +627,10 @@ export class SkraaFotoViewport extends HTMLElement {
     this.tool_measure_height = new MeasureHeightTool(this)
 
     // Listeners
+
+    // Toggle toolbar
+    this.shadowRoot.querySelector('.sf-tools-toggle-button').addEventListener('click', this.toggleToolbarHandler.bind(this))
+    this.shadowRoot.querySelector('.sf-tools-close-button').addEventListener('click', this.toggleToolbarHandler.bind(this))
 
     // Viewport sync trigger
     this.map.on('moveend', this.viewSyncViewportHandler.bind(this))
