@@ -5,8 +5,9 @@
 /** Custom styles for cookieinformation popup */
 @import "./styles/cookieinformation.css";
 
-/* Measure tool styles*/
-@import "./styles/measure.css";
+
+/* Tool styles*/
+@import "./components/toolbar/toolbar.css";
 
 body {
   position: relative;

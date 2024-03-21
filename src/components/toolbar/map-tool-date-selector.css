@@ -1,0 +1,5 @@
+/* Date selector */
+.sf-viewport-tools select.sf-date-selector {
+  border-radius: var(--space-lg) 0 0 var(--space-lg);
+  height: 100%;
+}

@@ -1,0 +1,15 @@
+/* Zoom tool */
+.sf-ol-zoom-control {
+  display: flex;
+  flex-flow: row nowrap;
+}
+.ol-zoom {
+  display: flex;
+  flex-flow: row nowrap;
+}
+.ol-zoom-in,
+.ol-zoom-out {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

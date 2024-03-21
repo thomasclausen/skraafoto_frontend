@@ -91,24 +91,6 @@ export class SkraaFotoViewport extends HTMLElement {
       width: 100%;
       display: block;
     }
-    .sf-viewport-tools {
-      position: absolute;
-      z-index: 2;
-      top: var(--space-md);
-      left: var(--space);
-      border-radius: 2rem
-    }
-    .sf-viewport-tools button {
-      display: flex;
-    }
-    .sf-viewport-tools select.sf-date-selector {
-      border-radius: var(--space-lg) 0 0 var(--space-lg);
-      height: 100%;
-    }
-    .sf-ol-controls {
-      display: flex;
-      flex-flow: row nowrap;
-    }
     .viewport-map {
       width: 100%; 
       height: 100%;
@@ -165,133 +147,22 @@ export class SkraaFotoViewport extends HTMLElement {
     .ol-viewport canvas {
       cursor: url('./img/icons/icon_crosshair.svg') 15 15, crosshair;
     }
-    .sf-fullscreen-btn svg {
-      display: none;
-      margin: 0 !important;
-    }
-    .sf-fullscreen-btn-true svg.fullscreen-true,
-    .sf-fullscreen-btn-false svg.fullscreen-false {
-      display: flex;
-    }
-    .ol-zoom {
-      display: flex;
-      flex-flow: row nowrap;
-    }
-    .ol-zoom-in,
-    .ol-zoom-out {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .sf-viewport-tools button.active {
-      background-color: var(--highlight) !important;
-    }
-
-    /* Measure width tool */
-    .sf-tooltip-measure {
-      background-color: var(--mork-tyrkis);
-      color: var(--hvid);
-      padding: 0.25rem 0.5rem;
-    }
-
-    /* Measure height tool */
-    .btn-height-measure > svg {
-      transform: rotate(90deg);
-    }
     
     .sf-compass-arrows {
       display: absolute;
       padding:10rem;
     }
 
-    button.sf-tools-toggle-button,
-    button.sf-tools-close-button,
     button-shift-orientation {
       display: none;
     }
 
-    @media screen and (max-width: 35rem) {
-      .sf-fullscreen-btn {
-        top: auto;
-        bottom: 2rem;
-        left: 2rem;
-      }
-      .ol-zoom {
-        display: none;
-      }
-    }
-
     @media screen and (max-width: 50rem) {
-
-      .sf-viewport-tools {
-        position: fixed;
-        top: auto;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border-radius: 0;
-      }
-    
       .image-date {
         bottom: auto;
         top: 1rem;
         left: 1.5rem;
       }
-
-      nav.sf-viewport-tools .ds-button-group {
-        transition: height 0.3s;
-        border: none;
-        width: 100%;
-        justify-content: space-between;
-      }
-
-      nav.sf-viewport-tools.collapsed .ds-button-group button,
-      nav.sf-viewport-tools.collapsed .ds-button-group select {
-        border-radius: 0;
-      }
-
-      .sf-viewport-tools .ds-button-group > hr,
-      .sf-viewport-tools.collapsed skraafoto-crosshair-tool,
-      .sf-viewport-tools.collapsed skraafoto-date-selector,
-      .sf-viewport-tools.collapsed skraafoto-download-tool,
-      .sf-viewport-tools.collapsed .sf-ol-controls,
-      .sf-viewport-tools.expanded button.sf-tools-toggle-button,
-      .sf-viewport-tools.collapsed button.sf-tools-close-button {
-        display: none;
-      }
-
-      .sf-viewport-tools.expanded button.sf-tools-close-button,
-      button.sf-tools-toggle-button {
-        display: block;
-      }
-
-      .sf-viewport-tools.expanded .ds-button-group {
-        height: auto;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: var(--space);
-        padding: var(--space);
-      }
-
-      .sf-viewport-tools.expanded button.sf-tools-close-button {
-        position: absolute;
-        top: -2.25rem;
-        right: 1rem;
-        border-radius: var(--space-md) var(--space-md) 0 0;
-        padding: 0;
-        background-color: var(--bg0);
-      }
-
-      .sf-viewport-tools.expanded button.sf-tools-close-button:hover,
-      .sf-viewport-tools.expanded button.sf-tools-close-button:active {
-        background-color: var(--bg2);
-      }
-
-      .sf-viewport-tools.expanded button.sf-tools-close-button:hover svg,
-      .sf-viewport-tools.expanded button.sf-tools-close-button:active svg {
-        --ds-icon-color: var(--color);
-      }
-      
     }
 
     @media screen and (max-width: 79.9rem) {
@@ -316,29 +187,86 @@ export class SkraaFotoViewport extends HTMLElement {
     
     <nav class="ds-nav-tools sf-viewport-tools collapsed" data-theme="light">
       <div class="ds-button-group">
-        <skraafoto-year-selector data-index="${ this.dataset.index }" data-viewport-id="${this.id}"></skraafoto-year-selector><hr>
-        ${ configuration.ENABLE_CROSSHAIR ? '<skraafoto-crosshair-tool></skraafoto-crosshair-tool>' : '' }
-        <button id="length-btn" class="btn-width-measure secondary" title="Mål afstand">
-          <svg><use href="${ svgSprites }#map-ruler"/></svg>
-        </button>
-        <button id="height-btn" class="btn-height-measure secondary" title="Mål højde">
-          <svg><use href="${ svgSprites }#map-ruler"/></svg>
-        </button>
-        <skraafoto-info-box id="info-btn"></skraafoto-info-box>
-        <skraafoto-download-tool></skraafoto-download-tool>
-        ${
-          configuration.ENABLE_GEOLOCATION ? `<skraafoto-geolocation></skraafoto-geolocation>`: ''
-        }
+
+        <div class="ds-button-group-item">
+          <skraafoto-year-selector data-index="${ this.dataset.index }" data-viewport-id="${this.id}"></skraafoto-year-selector>
+          <p>Årgang</p>
+        </div>
+        
         <hr>
-        <div class="sf-ol-controls"></div>
+
+        ${ configuration.ENABLE_CROSSHAIR ? `
+          <div class="ds-button-group-item">
+            <skraafoto-crosshair-tool></skraafoto-crosshair-tool>
+            <p>Flyt midtpunkt</p>
+          </div>
+        ` : '' }
+
+        <div class="ds-button-group-item">
+          <button id="length-btn" class="btn-width-measure secondary" title="Mål afstand">
+            <svg><use href="${ svgSprites }#map-ruler"/></svg>
+          </button>
+          <p>Mål afstand</p>
+        </div>
+
+        <div class="ds-button-group-item">
+          <button id="height-btn" class="btn-height-measure secondary" title="Mål højde">
+            <svg><use href="${ svgSprites }#map-ruler"/></svg>
+          </button>
+          <p>Mål højde</p>
+        </div>
+
+        ${ configuration.ENABLE_EXPOSURE ? `
+          <div class="ds-button-group-item">
+            <skraafoto-exposure-tool></skraafoto-exposure-tool>
+            <p>Eksponering</p>
+          </div>
+        ` : ''}
+
+        <div class="ds-button-group-item">
+          <skraafoto-info-box id="info-btn"></skraafoto-info-box>
+          <p>Vis info</p>
+        </div>
+
+        <div class="ds-button-group-item">
+          <skraafoto-download-tool></skraafoto-download-tool>
+          <p>Download</p>
+        </div>
+
+        ${ configuration.ENABLE_GEOLOCATION ? `
+          <div class="ds-button-group-item">
+            <skraafoto-geolocation></skraafoto-geolocation>
+            <p>Find placering</p>
+          </div>
+        `: '' }
+
         <hr>
-        <skraafoto-date-selector data-index="${ this.dataset.index }" data-viewport-id="${this.id}"></skraafoto-date-selector>
-        <button class="quiet sf-tools-toggle-button" title="Flere værktøjer">
-          <svg><use href="${ svgSprites }#hentdata-choose"/></svg>
-        </button>
-        <button class="quiet sf-tools-close-button" title="Luk værktøjer">
-          <svg><use href="${ svgSprites }#close"/></svg>
-        </button>
+
+        <div class="ds-button-group-item">
+          <div class="sf-ol-zoom-control"></div>
+          <p>Zoom ind/ud</p>
+        </div>
+
+        <div class="ds-button-group-item">
+          <div class="sf-ol-fullscreen-control"></div>
+          <p>Fuldskærm</p>
+        </div>
+
+        <hr>
+
+        <div class="ds-button-group-item">
+          <skraafoto-date-selector data-index="${ this.dataset.index }" data-viewport-id="${this.id}"></skraafoto-date-selector>
+          <p>Variant</p>
+        </div>
+
+        <div>
+          <button class="quiet sf-tools-toggle-button" title="Flere værktøjer">
+            <svg><use href="${ svgSprites }#hentdata-choose"/></svg>
+          </button>
+          <button class="quiet sf-tools-close-button" title="Luk værktøjer">
+            <svg><use href="${ svgSprites }#close"/></svg>
+          </button>
+        </div>
       </div>
     </nav>
     
@@ -381,13 +309,6 @@ export class SkraaFotoViewport extends HTMLElement {
     if (configuration.ENABLE_SMALL_FONT) {
       this.shadowRoot.getElementById('image-date').style.fontSize = '0.75rem'
     }
-
-    // Add button to adjust brightness to the dom if enabled
-    if (configuration.ENABLE_EXPOSURE) {
-      const button_group = this.shadowRoot.querySelector('.ds-button-group')
-      const info_button = this.shadowRoot.querySelector('#info-btn')
-      button_group.insertBefore(document.createElement('skraafoto-exposure-tool'), info_button)
-    }
   }
 
   /** Creates an OpenLayers map object and adds interactions, image data, etc. to it */
@@ -400,7 +321,7 @@ export class SkraaFotoViewport extends HTMLElement {
         attribution: false, 
         zoom: true, 
         zoomOptions: {
-          target: this.shadowRoot.querySelector('.sf-ol-controls')
+          target: this.shadowRoot.querySelector('.sf-ol-zoom-control')
         }
       }),
       interactions: new Collection()
@@ -432,7 +353,7 @@ export class SkraaFotoViewport extends HTMLElement {
         className: 'sf-fullscreen-btn',
         label: '',
         tipLabel: 'Skift fuldskærmsvisning',
-        target: this.shadowRoot.querySelector('.sf-ol-controls')
+        target: this.shadowRoot.querySelector('.sf-ol-fullscreen-control')
       }))
       // Add custom styles and fullscreen icon to fullscreen button
       const btnElement = this.shadowRoot.querySelector('.sf-fullscreen-btn button')

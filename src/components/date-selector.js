@@ -11,58 +11,6 @@ import svgSprites from '@dataforsyningen/designsystem/assets/designsystem-icons.
 export class SkraaFotoDateSelector extends HTMLElement {
 
   #selectElement
-  #styles = `
-    select {
-      background-color: var(--hvid);
-      border: none;
-      cursor: pointer;
-      box-shadow: none;
-      margin: 0;
-      border-radius: 0;
-    }
-    select {
-      width: auto;
-      background-position: center right .25rem !important;
-    }
-
-    @media screen and (max-width: 50rem) {
-
-      select {
-        text-indent: 0 !important;
-        width: auto;
-        height: 3rem;
-        border: none;
-        position: relative;
-        background: var(--ds-hentdata-icon-pending);
-        background-size: 2rem auto !important;
-        background-repeat: no-repeat;
-        background-position: 0.75rem center !important;
-        background-color: transparent;
-        padding: 0 1rem !important;
-      }
-      select:hover,
-      select:active {
-        background-color: var(--aktion) !important;
-        background-blend-mode: difference;
-      }
-      select:focus {
-        box-shadow: inset 0 0 0 3px var(--highlight);
-      }
-    }
-
-    @media screen and (min-width: 50.1rem) {
-
-      select {
-        width: auto;
-        background-position: center right .25rem !important;
-      }
-
-      select:focus {
-        box-shadow: 0 0 0 3px var(--highlight);
-      }
-
-    }
-  `
 
   constructor() {
     super()
@@ -122,10 +70,6 @@ export class SkraaFotoDateSelector extends HTMLElement {
 
   #renderTemplate() {
     return `
-      <style>
-        ${ this.#styles }
-      </style>
-    
       <select class="sf-date-viewer" id="date"></select>
     `
   }

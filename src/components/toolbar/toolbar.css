@@ -1,0 +1,118 @@
+/* Toolbar styles */
+
+@import "./map-tool-measure.css";
+@import "./map-tool-date-selector.css";
+@import "./map-tool-zoom.css";
+@import "./map-tool-fullscreen.css";
+
+.sf-viewport-tools {
+  position: absolute;
+  z-index: 2;
+  top: var(--space-md);
+  left: var(--space);
+  border-radius: 2rem
+}
+
+.ds-button-group-item > p,
+button.sf-tools-close-button,
+.sf-viewport-tools.expanded .ds-button-group > hr,
+.sf-viewport-tools.expanded button.sf-tools-toggle-button,
+.sf-viewport-tools.collapsed button.sf-tools-close-button {
+  display: none;
+}
+
+.sf-viewport-tools.expanded button.sf-tools-close-button,
+button.sf-tools-toggle-button {
+  display: block;
+}
+
+/* Button group */
+.sf-viewport-tools.expanded .ds-button-group {
+  height: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space);
+  padding: var(--space);
+}
+
+/* Tool buttons */
+nav.sf-viewport-tools.collapsed .ds-button-group button,
+nav.sf-viewport-tools.collapsed .ds-button-group select {
+  border-radius: 0;
+}
+
+.sf-viewport-tools button {
+  display: flex;
+}
+
+.sf-viewport-tools.expanded .ds-button-group-item {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.sf-viewport-tools.expanded .ds-button-group-item > p {
+  display: block;
+  font-size: smaller;
+}
+
+.sf-viewport-tools button.active {
+  background-color: var(--highlight) !important;
+}
+
+.sf-viewport-tools.expanded button.sf-tools-close-button:hover,
+.sf-viewport-tools.expanded button.sf-tools-close-button:active {
+  background-color: var(--bg2);
+}
+
+.sf-viewport-tools.expanded button.sf-tools-close-button:hover svg,
+.sf-viewport-tools.expanded button.sf-tools-close-button:active svg {
+  --ds-icon-color: var(--color);
+}
+
+/* Select elements*/
+.sf-viewport-tools.collapsed select {
+  border: none;
+}
+.sf-viewport-tools.expanded select {
+  border-radius: var(--space);
+  margin-bottom: var(--space-xs);
+}
+
+@media screen and (max-width: 50rem) {
+
+  .sf-viewport-tools {
+    position: fixed;
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 0;
+  }
+
+  nav.sf-viewport-tools .ds-button-group {
+    transition: height 0.3s;
+    border: none;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .sf-viewport-tools .ds-button-group > hr,
+  .sf-viewport-tools.collapsed skraafoto-crosshair-tool,
+  .sf-viewport-tools.collapsed skraafoto-date-selector,
+  .sf-viewport-tools.collapsed skraafoto-download-tool,
+  .sf-viewport-tools.collapsed .sf-ol-zoom-control,
+  .sf-viewport-tools.collapsed .sf-ol-fullscreen-control {
+    display: none;
+  }
+
+  .sf-viewport-tools.expanded button.sf-tools-close-button {
+    position: absolute;
+    top: -2.25rem;
+    right: 1rem;
+    border-radius: var(--space-md) var(--space-md) 0 0;
+    padding: 0;
+    background-color: var(--bg0);
+  }
+
+}
