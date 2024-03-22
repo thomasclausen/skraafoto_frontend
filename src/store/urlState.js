@@ -1,12 +1,14 @@
 import { sanitizeCoords } from '../modules/url-sanitize.js'
 import { fetchParcels } from '../custom-plugins/plugin-parcel'
 import { configuration } from '../modules/configuration.js'
-import { queryItem } from '../modules/api.js'
+import { queryItems, queryItem } from '../modules/api.js'
 
 function getUrlParams() {
   const url = new URL(window.location)
   return sanitizeCoords(url) // Returns URLSearchParams
 }
+
+// http://localhost:8000/?item=2021_84_40_4_0037_00084342&year=2021&center=721239.95%2C6174113.58&item-2=2023_84_40_2_0203_00120713&year-2=2023&orientation=east
 
 async function syncFromUrl(state) {
 
@@ -17,7 +19,14 @@ async function syncFromUrl(state) {
     item = await queryItem(params.get('item'))
   } else {
     // Load default item
-    item = await queryItem(configuration.DEFAULT_ITEM_ID)
+    const coords = configuration.DEFAULT_WORLD_COORDINATE
+    if (coords[0] === 721239 && coords[1] === 6174113) {
+      // Vandflyver image hack
+      item = await queryItem('2021_84_40_4_0037_00084342')
+    } else {
+      const data = await queryItems(coords, 'north')
+      item = data.features[0]
+    }
   }
   state.viewports[0].itemId = item.id
   state.viewports[0].item = item
