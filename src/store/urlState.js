@@ -8,8 +8,6 @@ function getUrlParams() {
   return sanitizeCoords(url) // Returns URLSearchParams
 }
 
-// http://localhost:8000/?item=2021_84_40_4_0037_00084342&year=2021&center=721239.95%2C6174113.58&item-2=2023_84_40_2_0203_00120713&year-2=2023&orientation=east
-
 async function syncFromUrl(state) {
 
   const params = getUrlParams()
